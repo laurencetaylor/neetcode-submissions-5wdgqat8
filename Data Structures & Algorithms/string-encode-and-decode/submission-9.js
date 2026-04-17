@@ -4,9 +4,7 @@ class Solution {
      * @returns {string}
      */
     encode(strs) {
-        return strs.reduce((acc, str) => {
-            return `${acc}${str.length}#${str}`;
-        }, "")
+        return strs.reduce((acc, str) => `${acc}${str.length}#${str}`, "");
     }
 
     /**
@@ -18,16 +16,28 @@ class Solution {
 
         let i = 0;
         while (i < str.length) {
-            let cursor = i;
-            while (str[cursor] !== "#") {
-                cursor++;
+            console.log(i);
+            if (str[i] === undefined) {
+                break;
             }
 
-            const length = parseInt(str.substring(i, cursor));
-            i = cursor + 1;
-            cursor = i + length;
-            result.push(str.substring(i, cursor));
-            i = cursor;
+            let j = i;
+            
+            let lengthStr = "";
+            while (j < str.length) {
+                if (str[j] !== "#") {
+                    lengthStr += str[j];
+                    j++;
+                } else {
+                    break;
+                }
+            }
+            
+            const length = parseInt(lengthStr);
+            const segment = str.substring(j + 1, j + 1 + length);
+            result.push(segment);
+
+            i = j + 1 + length;
         }
 
         return result;
